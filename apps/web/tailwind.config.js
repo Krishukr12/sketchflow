@@ -1,3 +1,1 @@
-module.exports = {
-    plugins: [require("tailwindcss-animate")],
-  }
+export const plugins = [require("tailwindcss-animate")];

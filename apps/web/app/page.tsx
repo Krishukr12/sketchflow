@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   Card,
   CardHeader,
@@ -15,149 +16,133 @@ import {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      <nav className="sticky top-0 bg-white/80 backdrop-blur-md border-b">
-        <div className="container flex items-center justify-between h-16">
-          <div className="flex items-center gap-2">
-            <svg
-              className="w-8 h-8 text-blue-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            <span className="text-xl font-bold">SketchFlow</span>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-100 shadow-2xl ">
+      <nav className="sticky top-0 bg-white/80 backdrop-blur-md z-50 ">
+        <div className="container mx-auto flex items-center justify-between h-16 px-6">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-600 rounded-lg">
+              <RocketIcon className="w-6 h-6 text-white" />
+            </div>
+            <Link href="/">
+              <span className="text-xl font-bold text-gray-800">
+                SketchFlow
+              </span>
+            </Link>
           </div>
 
           <div className="hidden md:flex items-center gap-6">
-            <a
-              href="#features"
-              className="text-sm font-medium hover:text-blue-600 transition-colors"
-            >
-              Features
-            </a>
-            <a
-              href="#examples"
-              className="text-sm font-medium hover:text-blue-600 transition-colors"
-            >
-              Examples
-            </a>
-            <a
-              href="#pricing"
-              className="text-sm font-medium hover:text-blue-600 transition-colors"
-            >
-              Pricing
-            </a>
+            {["Features", "Examples", "Pricing"].map((item) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+              >
+                {item}
+              </a>
+            ))}
           </div>
 
           <div className="flex items-center gap-4">
-            <Button variant="ghost">Sign In</Button>
-            <Button className="hidden sm:flex">Get Started</Button>
+            <Link href="/signin">
+              <Button variant="ghost" className="text-gray-700">
+                Sign In
+              </Button>
+            </Link>
+
+            <Link href="/signup">
+              <Button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 hidden sm:flex">
+                Get Started
+              </Button>
+            </Link>
           </div>
         </div>
       </nav>
 
-      <section className="container py-20 md:py-32">
-        <div className="flex flex-col md:flex-row items-center gap-12">
-          <div className="md:w-1/2 space-y-6">
-            <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Create Beautiful
-              <br />
-              <span className="animate-pulse">Drawings &</span>
-              <br />
-              Diagrams
-            </h1>
-            <p className="text-xl text-slate-600">
-              An open-source tool for creating hand-drawn style diagrams and
-              wireframes with collaboration in real-time.
-            </p>
-            <div className="flex gap-4">
-              <Button className="gap-2" size="lg">
-                <RocketIcon className="w-5 h-5" />
-                Start Drawing
-              </Button>
-              <Button variant="outline" size="lg">
-                Learn More
-              </Button>
-            </div>
+      <section className="container py-16 md:py-28 px-6 text-center lg:text-left flex flex-col lg:flex-row items-center lg:items-start gap-12 m-auto mt-12">
+        <div className="lg:w-1/2 space-y-6">
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 leading-tight">
+            Transform Your Ideas into
+            <br />
+            <span className="text-blue-600">Beautiful Diagrams</span>
+          </h1>
+          <p className="text-lg text-gray-600 max-w-xl mx-auto lg:mx-0">
+            Create professional hand-drawn style diagrams with real-time
+            collaboration. Open-source and built for teams.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start ">
+            <Button className="px-6 py-6 text-lg flex items-center gap-2">
+              <RocketIcon className="w-5 h-5" /> Start Drawing Free
+            </Button>
+            <Button variant="outline" className="px-6 py-6 text-lg">
+              Watch Demo
+            </Button>
           </div>
+        </div>
 
-          <div className="md:w-1/2 relative">
-            <div className="relative aspect-video bg-white rounded-xl shadow-2xl border overflow-hidden animate-float">
-              <svg
-                className="absolute inset-0 w-full h-full"
-                viewBox="0 0 100 100"
-              >
-                {/* Animated drawing paths */}
-                <path
-                  d="M20 30 L50 60 L80 30"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="animate-draw stroke-blue-600"
-                />
-                <path
-                  d="M30 70 Q50 50 70 70"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="animate-draw stroke-purple-600 delay-500"
-                />
-              </svg>
+        <div className="lg:w-1/2 mt-12 lg:mt-0 flex justify-center">
+          <div className="relative w-full max-w-lg aspect-video bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
+            <div className="absolute inset-0 flex items-center justify-center p-8">
+              <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
+                Diagram Preview Area
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="features" className="container py-20">
-        <h2 className="text-4xl font-bold text-center mb-16">
-          Powerful Features
+      <section
+        id="features"
+        className="container py-20 px-6 text-center m-auto mt-36"
+      >
+        <h2 className="text-4xl font-bold text-gray-800 mb-6">
+          Everything You Need to Create & Collaborate
         </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-12">
+          Powerful features designed to boost your productivity and creativity.
+        </p>
+
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center">
           {FEATURES.map((feature) => (
             <Card
               key={feature.title}
-              className="hover:shadow-lg transition-shadow"
+              className="hover:shadow-xl transition-all duration-300 ease-in-out hover:-translate-y-2 border-gray-200 rounded-2xl p-4 bg-white "
             >
-              <CardHeader>
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                  <feature.icon className="w-6 h-6 text-blue-600" />
+              <CardHeader className="space-y-4 flex flex-col items-center text-center">
+                <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center shadow-md">
+                  <feature.icon className="w-8 h-8 text-blue-600" />
                 </div>
-                <CardTitle>{feature.title}</CardTitle>
-                <CardDescription>{feature.description}</CardDescription>
+                <CardTitle className="text-xl font-semibold text-gray-800">
+                  {feature.title}
+                </CardTitle>
+                <CardDescription className="text-gray-600 text-base">
+                  {feature.description}
+                </CardDescription>
               </CardHeader>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="bg-white py-20">
-        <div className="container">
-          <div className="rounded-2xl border bg-gradient-to-br from-blue-50 to-purple-50 p-8">
-            <div className="aspect-video bg-white rounded-lg shadow-lg border animate-fade-in">
-              {/* Add your canvas preview component here */}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="container py-20 text-center">
-        <div className="max-w-2xl mx-auto space-y-6">
-          <h2 className="text-4xl font-bold">Start Creating Today</h2>
-          <p className="text-xl text-slate-600">
-            Join thousands of users already collaborating and creating amazing
-            diagrams with SketchFlow
+      <section className="bg-gradient-to-r from-blue-500 to-purple-600 py-24 text-white text-center">
+        <div className="container mx-auto space-y-8 px-6">
+          <h2 className="text-4xl font-extrabold tracking-tight">
+            Start Creating for Free
+          </h2>
+          <p className="text-lg max-w-2xl mx-auto opacity-90">
+            Join thousands of teams already using SketchFlow to bring their
+            ideas to life effortlessly.
           </p>
-          <Button size="lg" className="gap-2">
-            <MagicWandIcon className="w-5 h-5" />
-            Try It Free
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button className="px-8 py-5 text-lg font-semibold bg-white text-blue-600 hover:bg-blue-50 shadow-lg rounded-lg flex items-center gap-2 transition">
+              <MagicWandIcon className="w-5 h-5" /> Try SketchFlow Free
+            </Button>
+            <Button
+              variant="outline"
+              className="px-8 py-5 text-lg font-semibold border-white rounded-lg transition  text-blue-600"
+            >
+              View Live Demo
+            </Button>
+          </div>
         </div>
       </section>
     </div>
@@ -168,16 +153,34 @@ const FEATURES = [
   {
     icon: Share2Icon,
     title: "Real-time Collaboration",
-    description: "Work simultaneously with your team members in real-time",
+    description:
+      "Work simultaneously with your team with live cursor tracking and instant updates",
   },
   {
     icon: DownloadIcon,
-    title: "Export Multiple Formats",
-    description: "Save your work as PNG, SVG, or JSON for later editing",
+    title: "Multi-Format Export",
+    description:
+      "Export as PNG, SVG, PDF, or JSON. Perfect for presentations and sharing",
   },
   {
     icon: LightningBoltIcon,
-    title: "Instant Sharing",
-    description: "Share your drawings with a single click via shareable links",
+    title: "Smart Templates",
+    description:
+      "Jumpstart your designs with customizable templates and UI libraries",
+  },
+  {
+    icon: RocketIcon,
+    title: "Version Control",
+    description: "Track changes and revert to previous versions with ease",
+  },
+  {
+    icon: MagicWandIcon,
+    title: "AI Assistance",
+    description: "Get layout suggestions and auto-formatting powered by AI",
+  },
+  {
+    icon: RocketIcon,
+    title: "Cloud Storage",
+    description: "Secure cloud storage with unlimited revision history",
   },
 ];
