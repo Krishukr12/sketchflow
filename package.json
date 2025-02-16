@@ -1,5 +1,5 @@
 {
-  "name": "excalidraw",
+  "name": "sketchflow",
   "private": true,
   "scripts": {
     "build": "turbo run build",
