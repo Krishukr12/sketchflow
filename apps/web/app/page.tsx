@@ -1,6 +1,5 @@
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
-
 import {
   Card,
   CardHeader,
@@ -17,49 +16,8 @@ import {
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-100 shadow-2xl ">
-      <nav className="sticky top-0 bg-white/80 backdrop-blur-md z-50 ">
-        <div className="container mx-auto flex items-center justify-between h-16 px-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-blue-600 rounded-lg">
-              <RocketIcon className="w-6 h-6 text-white" />
-            </div>
-            <Link href="/">
-              <span className="text-xl font-bold text-gray-800">
-                SketchFlow
-              </span>
-            </Link>
-          </div>
-
-          <div className="hidden md:flex items-center gap-6">
-            {["Features", "Draw", "Pricing"].map((item) => (
-              <Link
-                key={item}
-                href={`/${item.toLowerCase()}`}
-                className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
-              >
-                {item}
-              </Link>
-            ))}
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Link href="/signin">
-              <Button variant="ghost" className="text-gray-700">
-                Sign In
-              </Button>
-            </Link>
-
-            <Link href="/signup">
-              <Button className="bg-blue-600 hover:bg-blue-700 px-4 py-2 hidden sm:flex">
-                Get Started
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      <section className="container py-16 md:py-28 px-6 text-center lg:text-left flex flex-col lg:flex-row items-center lg:items-start gap-12 m-auto mt-12">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-100 shadow-2xl">
+      <section className="container py-16 md:py-28 px-6 text-center lg:text-left flex flex-col lg:flex-row items-center lg:items-start gap-12 m-auto">
         <div className="lg:w-1/2 space-y-6">
           <h1 className="text-4xl sm:text-5xl font-bold text-gray-800 leading-tight">
             Transform Your Ideas into
@@ -84,7 +42,12 @@ export default function Home() {
           <div className="relative w-full max-w-lg aspect-video bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden">
             <div className="absolute inset-0 flex items-center justify-center p-8">
               <div className="w-full h-full bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
-                Diagram Preview Area
+                <Image
+                  alt="drawing"
+                  width={100}
+                  height={100}
+                  src="https://static.vecteezy.com/system/resources/thumbnails/046/801/154/small_2x/hand-drawing-with-a-pencil-in-black-and-white-sketch-style-png.png"
+                />
               </div>
             </div>
           </div>

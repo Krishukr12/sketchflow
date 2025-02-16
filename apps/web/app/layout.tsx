@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import type { Metadata } from "next";
+
+import localFont from "next/font/local";
+import Navbar from "@/components/Navbar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -14,6 +16,8 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "SketchFlow - Paint What You Think",
   description: "SketchFlow - Paint what you love",
+  icons:
+    "https://static.vecteezy.com/system/resources/thumbnails/046/801/154/small_2x/hand-drawing-with-a-pencil-in-black-and-white-sketch-style-png.png",
 };
 
 export default function RootLayout({
@@ -24,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <Navbar />
         {children}
       </body>
     </html>
