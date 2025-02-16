@@ -2,16 +2,35 @@
 
 import Image from "next/image";
 import Link from "next/link";
+
 import { useState } from "react";
 import { FiEye, FiEyeOff, FiChevronDown } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { COUNTRY_CODES } from "@/const/CountryCode";
+import { useForm } from "react-hook-form";
+import { UserSignUP, userSignUpSchema } from "@repo/zod-schema/user";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [selectedCountry] = useState(COUNTRY_CODES[0]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserSignUP>({
+    resolver: zodResolver(userSignUpSchema),
+    mode: "onBlur",
+    reValidateMode: "onSubmit",
+  });
+
+  const handleFormSubmit = (data: UserSignUP) => {
+    console.log(data);
+  };
 
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center min-h-screen px-4">
@@ -31,12 +50,23 @@ const SignUpForm = () => {
           </p>
         </div>
 
-        <form className="space-y-4">
+        <form
+          onSubmit={handleSubmit((data) => handleFormSubmit(data))}
+          className="space-y-4"
+        >
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Full Name
             </label>
-            <Input type="text" placeholder="John Doe" className="mt-1 py-6" />
+            <Input
+              {...register("name")}
+              type="text"
+              placeholder="John Doe"
+              className="mt-1 py-6"
+            />
+            {errors.name && (
+              <ErrorMessage message={errors.name.message ?? ""} />
+            )}
           </div>
 
           <div>
@@ -44,10 +74,14 @@ const SignUpForm = () => {
               Email Address
             </label>
             <Input
+              {...register("email")}
               type="email"
               placeholder="john@example.com"
               className="mt-1 py-6"
             />
+            {errors.email && (
+              <ErrorMessage message={errors.email.message ?? ""} />
+            )}
           </div>
 
           <div>
@@ -71,11 +105,15 @@ const SignUpForm = () => {
                 <FiChevronDown className="ml-auto text-gray-400" />
               </Button>
               <Input
+                {...register("phoneNumber")}
                 type="tel"
                 placeholder="123 456 7890"
                 className="flex-grow py-6"
               />
             </div>
+            {errors.phoneNumber && (
+              <ErrorMessage message={errors.phoneNumber.message ?? ""} />
+            )}
           </div>
 
           <div>
@@ -84,6 +122,7 @@ const SignUpForm = () => {
             </label>
             <div className="relative mt-1">
               <Input
+                {...register("password")}
                 type={showPassword ? "text" : "password"}
                 placeholder="••••••••••"
                 className="pr-12 py-6"
@@ -95,6 +134,9 @@ const SignUpForm = () => {
               >
                 {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
               </Button>
+              {errors.password && (
+                <ErrorMessage message={errors.password.message ?? ""} />
+              )}
             </div>
           </div>
 

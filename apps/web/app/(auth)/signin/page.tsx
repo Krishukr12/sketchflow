@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { FiArrowRight, FiEye, FiEyeOff } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@/components/ErrorMessage";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserLogin, userLoginSchema } from "@repo/zod-schema/user";
 
 const SignInForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,11 +17,13 @@ const SignInForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    // resolver: zodResolver(userLoginSchema),
+  } = useForm<UserLogin>({
+    resolver: zodResolver(userLoginSchema),
+    mode: "onBlur",
+    reValidateMode: "onSubmit",
   });
 
-  const handleFormSubmit = (data: { email: string; password: string }) => {
+  const handleFormSubmit = (data: UserLogin) => {
     console.log(data);
   };
   return (
@@ -34,7 +37,7 @@ const SignInForm = () => {
         </div>
 
         <form
-          // onSubmit={handleSubmit((data) => handleFormSubmit(data))}
+          onSubmit={handleSubmit((data) => handleFormSubmit(data))}
           className="space-y-5"
         >
           <div>
@@ -47,9 +50,9 @@ const SignInForm = () => {
               placeholder="john@example.com"
               className="py-6 outline-none"
             />
-            {/* {errors.email && (
+            {errors.email && (
               <ErrorMessage message={errors.email.message ?? ""} />
-            )} */}
+            )}
           </div>
 
           <div>
@@ -70,6 +73,9 @@ const SignInForm = () => {
               >
                 {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
               </Button>
+              {errors.password && (
+                <ErrorMessage message={errors.password.message ?? ""} />
+              )}
             </div>
           </div>
 
