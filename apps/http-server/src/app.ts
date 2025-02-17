@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
-import { userRouter } from "./routes/v1/userRouter";
-import { globalErrorHandler } from "./utils/globalError";
+import { userRouter } from "./routes/v1/userRouter.js";
+import { globalErrorHandler } from "./utils/globalError.js";
 
 const PORT = process.env.PORT ?? 8080;
 const app = express();

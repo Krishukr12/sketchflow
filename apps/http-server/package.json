@@ -11,15 +11,17 @@
   "dependencies": {
     "@repo/typescript-config": "workspace:*",
     "@repo/zod-schema": "workspace:*",
+    "@repo/db":"workspace:*",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "http-status-codes": "^2.3.0"
+
   },
   "keywords": [],
   "author": "",
+  "type": "module",
   "license": "ISC",
-  "type": "commonjs",
   "description": ""
 }
