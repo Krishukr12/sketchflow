@@ -5,19 +5,19 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc -b",
-    "dev": "pnpm run build && node dist/app.js",
-    "start":"node dist/app.js"
+    "dev": "pnpm run build && tsx dist/app.js",
+    "start": "node dist/app.js"
   },
   "dependencies": {
+    "@repo/db": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@repo/zod-schema": "workspace:*",
-    "@repo/db":"workspace:*",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "http-status-codes": "^2.3.0"
-
+    "http-status-codes": "^2.3.0",
+    "tsx": "^4.19.2"
   },
   "keywords": [],
   "author": "",
