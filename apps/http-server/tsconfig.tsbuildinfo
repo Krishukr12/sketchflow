@@ -1,1 +1,1 @@
-{"root":["./src/app.ts","./src/controller/v1/usercontroller.ts","./src/routes/v1/userrouter.ts","./src/utils/createerror.ts","./src/utils/globalerror.ts","./src/utils/validatewithzod.ts"],"version":"5.7.3"}
+{"root":["./src/app.ts","./src/controller/v1/usercontroller.ts","./src/middleware/isuserauthenticated.ts","./src/routes/v1/userrouter.ts","./src/utils/createerror.ts","./src/utils/globalerror.ts","./src/utils/validatewithzod.ts"],"version":"5.7.3"}
