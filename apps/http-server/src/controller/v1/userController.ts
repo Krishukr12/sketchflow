@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
+import { NextFunction, Request, Response } from "express";
 import { createError } from "../../utils/createError.js";
 import { StatusCodes } from "http-status-codes";
-import { userLoginSchema } from "@repo/zod-schema/user";
-import { ZodError } from "@repo/zod-schema/z";
 import { prismaClient } from "@repo/db/client";
 
 export const userSignIn = async (
@@ -11,30 +11,57 @@ export const userSignIn = async (
   res: Response,
   next: NextFunction
 ) => {
-  // validate with zod
-  // check if user already exit , and email phoneNumber should be unique
-
-  const isDataValid = userLoginSchema.safeParse(req.body);
-  if (!isDataValid.success) {
-    res.send(StatusCodes.BAD_GATEWAY).json({
-      status: false,
-      error: isDataValid.error,
-    });
-  }
-
-  res.send("working fine");
-
+  // data will come correct here because of middleware
+  // check in db , about email and match the pass , if both are okey
+  // generate jwt token and return it
+  // return unauthorized
+  const { email, password } = req.body;
   try {
-    const { userId } = req.body;
-    const response = await prismaClient.user.findFirst({ where: userId });
-    console.log(userId);
-  } catch (error) {
-    if (error instanceof ZodError) {
-      next(createError(StatusCodes.BAD_GATEWAY, "internal server error"));
+    const user = await prismaClient.user.findFirst({
+      where: { email },
+    });
+
+    if (!user) {
+      next(createError(StatusCodes.UNAUTHORIZED, "invalid email"));
+      return;
     }
+    const isPasswordValid = bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      next(createError(StatusCodes.UNAUTHORIZED, "invalid password"));
+    }
+
+    const token = jwt.sign(
+      { userId: user.userId, email: user.email },
+      "dsfasdfasdfasdkfasdf",
+      { expiresIn: "1h" }
+    );
+
+    res.status(StatusCodes.OK).json({
+      success: true,
+      user,
+      token,
+    });
+  } catch (error) {
+    next(createError(StatusCodes.BAD_REQUEST, "internal server error"));
   }
 };
 
-export const userSignUp = (req: Request, res: Response, next: NextFunction) => {
-  res.send("working fine");
+export const userSignUp = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    console.log(req.body);
+    const response = await prismaClient.user.create(req.body);
+    console.log("response", response);
+    res.status(StatusCodes.CREATED).json({
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    next(
+      createError(StatusCodes.INTERNAL_SERVER_ERROR, "internal server error")
+    );
+  }
 };
