@@ -11,10 +11,6 @@ export const userSignIn = async (
   res: Response,
   next: NextFunction
 ) => {
-  // data will come correct here because of middleware
-  // check in db , about email and match the pass , if both are okey
-  // generate jwt token and return it
-  // return unauthorized
   const { email, password } = req.body;
   try {
     const user = await prismaClient.user.findFirst({
@@ -38,8 +34,12 @@ export const userSignIn = async (
 
     res.status(StatusCodes.OK).json({
       success: true,
-      user,
       token,
+      data: {
+        email: user.email,
+        fullName: user.fullName,
+        phoneNumber: user.phoneNumber,
+      },
     });
   } catch (error) {
     next(createError(StatusCodes.BAD_REQUEST, "internal server error"));
@@ -52,14 +52,33 @@ export const userSignUp = async (
   next: NextFunction
 ) => {
   try {
-    console.log(req.body);
-    const response = await prismaClient.user.create(req.body);
-    console.log("response", response);
+    const { password, email, phoneNumber, fullName } = req.body;
+
+    const isUserAlreadyExist = await prismaClient.user.findFirst({
+      where: { OR: [{ email }, { phoneNumber }] },
+    });
+
+    if (isUserAlreadyExist) {
+      next(createError(StatusCodes.CONFLICT, "user already exist"));
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const response = await prismaClient.user.create({
+      data: { email, phoneNumber, fullName, password: hashedPassword },
+      select: {
+        fullName: true,
+        email: true,
+        phoneNumber: true,
+      },
+    });
+
     res.status(StatusCodes.CREATED).json({
       success: true,
+      message: "user signup successfully",
+      data: response,
     });
   } catch (error) {
-    console.log(error);
     next(
       createError(StatusCodes.INTERNAL_SERVER_ERROR, "internal server error")
     );
